@@ -1,18 +1,22 @@
 package com.well.tech.traffic.counter.api.service;
 
-import com.well.tech.traffic.counter.api.entity.TrafficDevice;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
+import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface TrafficDeviceService {
 
-    List<TrafficDevice> findAll();
+    List<TrafficDeviceResponse> findAll();
 
-    Optional<TrafficDevice> findById(UUID id);
+    TrafficDeviceResponse findById(UUID id);
 
-    TrafficDevice save(TrafficDevice device);
+    TrafficDeviceResponse save(TrafficDeviceRequest request);
+
+    TrafficDeviceResponse update(
+            UUID id,
+            TrafficDeviceRequest request);
 
     void deleteById(UUID id);
 }

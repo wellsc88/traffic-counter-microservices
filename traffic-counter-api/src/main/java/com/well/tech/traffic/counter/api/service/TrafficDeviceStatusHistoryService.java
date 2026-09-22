@@ -1,18 +1,19 @@
 package com.well.tech.traffic.counter.api.service;
 
-import com.well.tech.traffic.counter.api.entity.TrafficDeviceStatusHistory;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryRequest;
+import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceStatusHistoryResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface TrafficDeviceStatusHistoryService {
 
-    List<TrafficDeviceStatusHistory> findAll();
+    List<TrafficDeviceStatusHistoryResponse> findAll();
 
-    Optional<TrafficDeviceStatusHistory> findById(UUID id);
+    TrafficDeviceStatusHistoryResponse findById(UUID id);
 
-    TrafficDeviceStatusHistory save(TrafficDeviceStatusHistory device);
+    TrafficDeviceStatusHistoryResponse save(
+            TrafficDeviceStatusHistoryRequest request);
 
     void deleteById(UUID id);
 }
