@@ -26,6 +26,10 @@
         <java.version>21</java.version>
     </properties>
 
+    <modules>
+        <module>traffic-counter-api</module>
+    </modules>
+
     <dependencies>
 
         <!-- Spring Actuator -->
