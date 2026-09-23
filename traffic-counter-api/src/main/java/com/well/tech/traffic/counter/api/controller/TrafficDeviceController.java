@@ -1,5 +1,6 @@
 package com.well.tech.traffic.counter.api.controller;
 
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceService;
@@ -22,8 +23,10 @@ public class TrafficDeviceController {
     private final TrafficDeviceService service;
 
     @GetMapping
-    public ResponseEntity<List<TrafficDeviceResponse>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<TrafficDeviceResponse>> findAll(
+            @ModelAttribute TrafficDeviceFilterRequest filter) {
+
+        return ResponseEntity.ok(service.findAll(filter));
     }
 
     @GetMapping("/{id}")

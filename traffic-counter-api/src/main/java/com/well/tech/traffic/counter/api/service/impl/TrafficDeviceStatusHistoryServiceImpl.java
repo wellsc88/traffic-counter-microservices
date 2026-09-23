@@ -1,6 +1,7 @@
 package com.well.tech.traffic.counter.api.service.impl;
 
 import com.well.tech.traffic.counter.api.common.exceptions.resource.ResourceNotFoundException;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryRequest;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceStatusHistoryResponse;
 import com.well.tech.traffic.counter.api.entity.TrafficDevice;
@@ -9,8 +10,10 @@ import com.well.tech.traffic.counter.api.mapper.TrafficDeviceStatusHistoryMapper
 import com.well.tech.traffic.counter.api.repository.TrafficDeviceRepository;
 import com.well.tech.traffic.counter.api.repository.TrafficDeviceStatusHistoryRepository;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceStatusHistoryService;
+import com.well.tech.traffic.counter.api.specification.TrafficDeviceStatusHistorySpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,10 +30,15 @@ public class TrafficDeviceStatusHistoryServiceImpl
     private final TrafficDeviceStatusHistoryMapper mapper;
 
     @Override
-    public List<TrafficDeviceStatusHistoryResponse> findAll() {
-        log.debug("Finding all traffic device status histories");
+    public List<TrafficDeviceStatusHistoryResponse> findAll(
+            TrafficDeviceStatusHistoryFilterRequest filter) {
 
-        return repository.findAll()
+        log.debug("Finding traffic device status histories with filters");
+
+        Specification<TrafficDeviceStatusHistory> specification =
+                TrafficDeviceStatusHistorySpecification.filter(filter);
+
+        return repository.findAll(specification)
                 .stream()
                 .map(mapper::toResponse)
                 .toList();

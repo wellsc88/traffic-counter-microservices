@@ -1,14 +1,17 @@
 package com.well.tech.traffic.counter.api.service.impl;
 
 import com.well.tech.traffic.counter.api.common.exceptions.resource.ResourceNotFoundException;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.entity.TrafficDevice;
 import com.well.tech.traffic.counter.api.mapper.TrafficDeviceMapper;
 import com.well.tech.traffic.counter.api.repository.TrafficDeviceRepository;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceService;
+import com.well.tech.traffic.counter.api.specification.TrafficDeviceSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +26,15 @@ public class TrafficDeviceServiceImpl implements TrafficDeviceService {
     private final TrafficDeviceMapper mapper;
 
     @Override
-    public List<TrafficDeviceResponse> findAll() {
-        log.debug("Finding all traffic devices");
+    public List<TrafficDeviceResponse> findAll(
+            TrafficDeviceFilterRequest filter) {
 
-        return repository.findAll()
+        log.debug("Finding traffic devices with filters");
+
+        Specification<TrafficDevice> specification =
+                TrafficDeviceSpecification.filter(filter);
+
+        return repository.findAll(specification)
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
