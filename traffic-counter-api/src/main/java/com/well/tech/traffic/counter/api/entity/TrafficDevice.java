@@ -1,5 +1,6 @@
 package com.well.tech.traffic.counter.api.entity;
 
+import com.well.tech.traffic.counter.api.common.enums.DeviceState;
 import com.well.tech.traffic.counter.api.common.enums.DeviceStatus;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -37,9 +38,10 @@ public class TrafficDevice {
     @Column(name="device_type", length = 30, nullable = false)
     private DeviceType deviceType;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 30, nullable = false)
-    private DeviceStatus status = DeviceStatus.INACTIVE;
+    private DeviceStatus status = DeviceStatus.OFFLINE;
 
     @Column(nullable = false)
     private String location;
@@ -64,6 +66,7 @@ public class TrafficDevice {
     )
     @MapKeyColumn(name = "lane_number")
     @Column(name = "direction", nullable = false)
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private Map<Integer, Direction> laneDirections = new HashMap<>();
 
@@ -76,8 +79,10 @@ public class TrafficDevice {
     @Column(name="firmware_version", length = 50)
     private String firmwareVersion;
 
-    @Column(nullable = false)
-    private Boolean enabled = false;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Column(name="device_state", nullable = false, length = 10)
+    private DeviceState deviceState = DeviceState.INACTIVE;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

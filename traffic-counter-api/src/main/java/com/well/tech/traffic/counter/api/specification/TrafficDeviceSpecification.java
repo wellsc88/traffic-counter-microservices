@@ -1,5 +1,6 @@
 package com.well.tech.traffic.counter.api.specification;
 
+import com.well.tech.traffic.counter.api.common.enums.DeviceState;
 import com.well.tech.traffic.counter.api.common.enums.DeviceStatus;
 import com.well.tech.traffic.counter.api.common.enums.DeviceType;
 import com.well.tech.traffic.counter.api.common.enums.Direction;
@@ -44,9 +45,9 @@ public final class TrafficDeviceSpecification {
             );
         }
 
-        if (request.enabled() != null) {
+        if (request.deviceState() != null) {
             specification = specification.and(
-                    enabledEquals(request.enabled())
+                    deviceStateEquals(request.deviceState())
             );
         }
 
@@ -101,13 +102,13 @@ public final class TrafficDeviceSpecification {
                 );
     }
 
-    public static Specification<TrafficDevice> enabledEquals(
-            Boolean enabled) {
+    public static Specification<TrafficDevice> deviceStateEquals(
+            DeviceState state) {
 
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(
-                        root.get("enabled"),
-                        enabled
+                        root.get("deviceState"),
+                        state
                 );
     }
 

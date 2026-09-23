@@ -1,5 +1,6 @@
 package com.well.tech.traffic.counter.api.dto.request;
 
+import com.well.tech.traffic.counter.api.common.enums.DeviceState;
 import com.well.tech.traffic.counter.api.common.enums.DeviceStatus;
 import com.well.tech.traffic.counter.api.common.enums.DeviceType;
 import com.well.tech.traffic.counter.api.common.enums.Direction;
@@ -16,7 +17,7 @@ public record TrafficDeviceFilterRequest(
 
         @Schema(
                 description = "Filters devices by current status",
-                example = "ACTIVE"
+                example = "ONLINE"
         )
         DeviceStatus status,
 
@@ -33,10 +34,10 @@ public record TrafficDeviceFilterRequest(
         Direction direction,
 
         @Schema(
-                description = "Filters devices by enabled state",
-                example = "true"
+                description = "Filters devices by state",
+                example = "ACTIVE"
         )
-        Boolean enabled,
+        DeviceState deviceState,
 
         @Schema(
                 description = "Filters devices by location using a partial match",

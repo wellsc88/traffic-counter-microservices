@@ -2,6 +2,8 @@ package com.well.tech.traffic.counter.api.controller;
 
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStateRequest;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusRequest;
 import com.well.tech.traffic.counter.api.dto.response.PageResponse;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceService;
@@ -19,8 +21,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.well.tech.traffic.counter.api.config.ApiVersion.API_BASE_PATH;
+import static com.well.tech.traffic.counter.api.config.ApiVersion.API_VERSION;
+
 @RestController
-@RequestMapping("/traffic-devices")
+@RequestMapping(API_BASE_PATH + "/" + API_VERSION + "/traffic-devices")
 @RequiredArgsConstructor
 @Tag(
         name = "Traffic Devices",
@@ -108,6 +113,60 @@ public class TrafficDeviceController {
             @RequestBody TrafficDeviceRequest request) {
 
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @Operation(
+            summary = "Update device state",
+            description = "Updates the administrative state of a traffic device."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Device state updated successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Traffic device not found"
+            )
+    })
+    @PatchMapping("/{id}/state")
+    public ResponseEntity<TrafficDeviceResponse> updateState(
+            @Parameter(
+                    description = "Traffic device unique identifier",
+                    example = "550e8400-e29b-41d4-a716-446655440000"
+            )
+            @PathVariable UUID id,
+
+            @RequestBody TrafficDeviceStateRequest request) {
+
+        return ResponseEntity.ok(service.updateState(id, request));
+    }
+
+    @Operation(
+            summary = "Update device status",
+            description = "Updates the operational status of a traffic device."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Device status updated successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Traffic device not found"
+            )
+    })
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<TrafficDeviceResponse> updateStatus(
+            @Parameter(
+                    description = "Traffic device unique identifier",
+                    example = "550e8400-e29b-41d4-a716-446655440000"
+            )
+            @PathVariable UUID id,
+
+            @RequestBody TrafficDeviceStatusRequest request) {
+
+        return ResponseEntity.ok(service.updateStatus(id, request));
     }
 
     @Operation(
