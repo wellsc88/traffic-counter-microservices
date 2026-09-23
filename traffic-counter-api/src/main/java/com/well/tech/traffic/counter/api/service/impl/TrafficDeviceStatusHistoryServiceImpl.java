@@ -3,7 +3,6 @@ package com.well.tech.traffic.counter.api.service.impl;
 import com.well.tech.traffic.counter.api.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryRequest;
-import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceStatusHistoryResponse;
 import com.well.tech.traffic.counter.api.entity.TrafficDevice;
 import com.well.tech.traffic.counter.api.entity.TrafficDeviceStatusHistory;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
