@@ -13,10 +13,11 @@ import com.well.tech.traffic.counter.api.service.TrafficDeviceStatusHistoryServi
 import com.well.tech.traffic.counter.api.specification.TrafficDeviceStatusHistorySpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -30,18 +31,18 @@ public class TrafficDeviceStatusHistoryServiceImpl
     private final TrafficDeviceStatusHistoryMapper mapper;
 
     @Override
-    public List<TrafficDeviceStatusHistoryResponse> findAll(
-            TrafficDeviceStatusHistoryFilterRequest filter) {
+    public Page<TrafficDeviceStatusHistoryResponse> findAll(
+            TrafficDeviceStatusHistoryFilterRequest filter,
+            Pageable pageable
+    ) {
 
         log.debug("Finding traffic device status histories with filters");
 
         Specification<TrafficDeviceStatusHistory> specification =
                 TrafficDeviceStatusHistorySpecification.filter(filter);
 
-        return repository.findAll(specification)
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+        return repository.findAll(specification, pageable)
+                .map(mapper::toResponse);
     }
 
     @Override
