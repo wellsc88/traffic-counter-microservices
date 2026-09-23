@@ -13,6 +13,8 @@ import com.well.tech.traffic.counter.api.service.TrafficDeviceMaintenanceLogServ
 import com.well.tech.traffic.counter.api.specification.TrafficDeviceMaintenanceLogSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +32,19 @@ public class TrafficDeviceMaintenanceLogServiceImpl
     private final TrafficDeviceMaintenanceLogMapper mapper;
 
     @Override
-    public List<TrafficDeviceMaintenanceLogResponse> findAll(
-            TrafficDeviceMaintenanceLogFilterRequest filter) {
+    public Page<TrafficDeviceMaintenanceLogResponse> findAll(
+            TrafficDeviceMaintenanceLogFilterRequest filter,
+            Pageable pageable
+    ) {
 
         log.debug("Finding traffic device maintenance logs with filters");
 
         Specification<TrafficDeviceMaintenanceLog> specification =
                 TrafficDeviceMaintenanceLogSpecification.filter(filter);
 
-        return repository.findAll(specification)
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+        return repository.findAll(specification, pageable)
+                .map(mapper::toResponse);
+
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.well.tech.traffic.counter.api.service.TrafficDeviceService;
 import com.well.tech.traffic.counter.api.specification.TrafficDeviceSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +28,18 @@ public class TrafficDeviceServiceImpl implements TrafficDeviceService {
     private final TrafficDeviceMapper mapper;
 
     @Override
-    public List<TrafficDeviceResponse> findAll(
-            TrafficDeviceFilterRequest filter) {
+    public Page<TrafficDeviceResponse> findAll(
+            TrafficDeviceFilterRequest filter,
+            Pageable pageable
+    ) {
 
         log.debug("Finding traffic devices with filters");
 
         Specification<TrafficDevice> specification =
                 TrafficDeviceSpecification.filter(filter);
 
-        return repository.findAll(specification)
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+        return repository.findAll(specification, pageable)
+                  .map(mapper::toResponse);
     }
 
     @Override

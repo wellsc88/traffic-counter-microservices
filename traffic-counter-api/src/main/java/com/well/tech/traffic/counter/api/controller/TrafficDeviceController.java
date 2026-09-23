@@ -2,9 +2,12 @@ package com.well.tech.traffic.counter.api.controller;
 
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
+import com.well.tech.traffic.counter.api.dto.response.PageResponse;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +26,14 @@ public class TrafficDeviceController {
     private final TrafficDeviceService service;
 
     @GetMapping
-    public ResponseEntity<List<TrafficDeviceResponse>> findAll(
-            @ModelAttribute TrafficDeviceFilterRequest filter) {
+    public ResponseEntity<PageResponse<TrafficDeviceResponse>> findAll(
+            @ModelAttribute TrafficDeviceFilterRequest filter,
+            Pageable pageable
+    ) {
+        Page<TrafficDeviceResponse> page =
+                service.findAll(filter, pageable);
 
-        return ResponseEntity.ok(service.findAll(filter));
+        return ResponseEntity.ok(PageResponse.from(page));
     }
 
     @GetMapping("/{id}")

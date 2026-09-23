@@ -2,9 +2,14 @@ package com.well.tech.traffic.counter.api.controller;
 
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusHistoryRequest;
+import com.well.tech.traffic.counter.api.dto.response.PageResponse;
+import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceMaintenanceLogResponse;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceStatusHistoryResponse;
+import com.well.tech.traffic.counter.api.entity.TrafficDeviceStatusHistory;
 import com.well.tech.traffic.counter.api.service.TrafficDeviceStatusHistoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +28,15 @@ public class TrafficDeviceStatusHistoryController {
     private final TrafficDeviceStatusHistoryService service;
 
     @GetMapping
-    public ResponseEntity<List<TrafficDeviceStatusHistoryResponse>> findAll(
-            @ModelAttribute TrafficDeviceStatusHistoryFilterRequest filter) {
+    public ResponseEntity<PageResponse<TrafficDeviceStatusHistoryResponse>> findAll(
+            @ModelAttribute TrafficDeviceStatusHistoryFilterRequest filter,
+            Pageable pageable
+    ) {
 
-        return ResponseEntity.ok(service.findAll(filter));
+        Page<TrafficDeviceStatusHistoryResponse> page =
+                service.findAll(filter, pageable);
+
+        return ResponseEntity.ok(PageResponse.from(page));
     }
 
     @GetMapping("/{id}")
