@@ -3,6 +3,8 @@ package com.well.tech.traffic.counter.api.service.impl;
 import com.well.tech.traffic.counter.api.common.exceptions.resource.ResourceNotFoundException;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceFilterRequest;
 import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceRequest;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStateRequest;
+import com.well.tech.traffic.counter.api.dto.request.TrafficDeviceStatusRequest;
 import com.well.tech.traffic.counter.api.dto.response.TrafficDeviceResponse;
 import com.well.tech.traffic.counter.api.entity.TrafficDevice;
 import com.well.tech.traffic.counter.api.mapper.TrafficDeviceMapper;
@@ -74,6 +76,36 @@ public class TrafficDeviceServiceImpl implements TrafficDeviceService {
         TrafficDevice updatedDevice = repository.save(device);
 
         return mapper.toResponse(updatedDevice);
+    }
+
+    @Override
+    public TrafficDeviceResponse updateState(
+            UUID id,
+            TrafficDeviceStateRequest request) {
+
+        TrafficDevice device = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Traffic device not found with id: " + id));
+
+        device.setDeviceState(request.state());
+
+        return mapper.toResponse(repository.save(device));
+    }
+
+    @Override
+    public TrafficDeviceResponse updateStatus(
+            UUID id,
+            TrafficDeviceStatusRequest request) {
+
+        TrafficDevice device = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Traffic device not found with id: " + id));
+
+        device.setStatus(request.status());
+
+        return mapper.toResponse(repository.save(device));
     }
 
     @Override

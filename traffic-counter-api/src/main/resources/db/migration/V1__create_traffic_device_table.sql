@@ -12,7 +12,7 @@ CREATE TABLE traffic_devices (
     address_ipv4 VARCHAR(15),
     mac_address VARCHAR(17),
     firmware_version VARCHAR(50),
-    enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    device_state VARCHAR(10) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );

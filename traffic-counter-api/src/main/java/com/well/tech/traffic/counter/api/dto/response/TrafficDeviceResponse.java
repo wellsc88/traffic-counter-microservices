@@ -1,5 +1,6 @@
 package com.well.tech.traffic.counter.api.dto.response;
 
+import com.well.tech.traffic.counter.api.common.enums.DeviceState;
 import com.well.tech.traffic.counter.api.common.enums.DeviceStatus;
 import com.well.tech.traffic.counter.api.common.enums.DeviceType;
 import com.well.tech.traffic.counter.api.common.enums.Direction;
@@ -98,10 +99,10 @@ public record TrafficDeviceResponse(
         String firmwareVersion,
 
         @Schema(
-                description = "Indicates whether the device is enabled",
-                example = "true"
+                description = "Indicates whether the device is activated",
+                example = "ACTIVE"
         )
-        Boolean enabled,
+        DeviceState deviceState,
 
         @Schema(
                 description = "Record creation date and time",

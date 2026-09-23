@@ -59,7 +59,7 @@ public class TrafficDeviceMapper {
                 entity.getAddressIpv4(),
                 entity.getMacAddress(),
                 entity.getFirmwareVersion(),
-                entity.getEnabled(),
+                entity.getDeviceState(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );
